@@ -16,7 +16,7 @@
 	</extension>
 </addon>
 
-<addon id="service.subtitles.betaseries" name="Betaseries" version="1.0.1" provider-name="nekoserv-kodi">
+<addon id="service.subtitles.betaseries" name="Betaseries" version="1.0.2" provider-name="nekoserv-kodi">
 	<requires>
 		<import addon="xbmc.python" version="3.0.0"/>
 		<import addon="script.module.simplejson" version="3.17.0" />

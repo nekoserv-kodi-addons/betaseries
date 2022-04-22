@@ -104,7 +104,6 @@ def get_url(url, referer=self_host):
     'Pragma': 'no-cache',
     'Referer': referer}
     request = urllib.request.Request(url, headers=req_headers)
-    log('url = ' + url, xbmc.LOGERROR)
     opener = urllib.request.build_opener()
     try:
         response = opener.open(request)
@@ -178,7 +177,6 @@ def get_imdb_id_from_tmdb(tmdb_id):
     imdb_url = "%s/%s/tv/%s?api_key=%s&append_to_response=external_ids" % (self_tmdb_host, self_tmdb_apiver, int(tmdb_id), self_tmdb_apikey)
 
     try:
-        log("calling tmdb with : %s" % imdb_url)
         return json.loads(get_url(imdb_url))["external_ids"]["imdb_id"]
     except:
         log("could not parse data or fetch url for tmdb_id '%s', cannot continue" % int(tmdb_id))
