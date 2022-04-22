@@ -57,3 +57,7 @@ msgstr ""
 msgctxt "#30012"
 msgid "No TMDB API key provided, configure your plugin"
 msgstr ""
+
+msgctxt "#30013"
+msgid "Betaseries API key"
+msgstr ""

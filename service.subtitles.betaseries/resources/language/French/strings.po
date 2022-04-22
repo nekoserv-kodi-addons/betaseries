@@ -57,3 +57,7 @@ msgstr "Clef API du service TMDB"
 msgctxt "#30012"
 msgid "No TMDB API key provided, configure your plugin"
 msgstr "Aucune clef d'API du service TMDB fournie, veuillez configurer le plugin"
+
+msgctxt "#30013"
+msgid "Betaseries API key"
+msgstr "Clef API du service Betaseries"

@@ -1,2 +1,5 @@
+1.0.1
+- Betaseries API key configuration
+
 1.0.0
 - initial release

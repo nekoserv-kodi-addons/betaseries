@@ -5,6 +5,7 @@
 		<setting id="ccfirst" type="bool" label="30005" default="false"/>
 		<setting id="dirsync" type="bool" label="30006" default="false"/>
 		<setting id="notify" type="bool" label="30007" default="false"/>
+		<setting id="betaseries_apikey" type="text" label="30013" default=""/>
 		<setting id="tmdb_apikey" type="text" label="30011" default=""/>
 	</category>
 </settings>

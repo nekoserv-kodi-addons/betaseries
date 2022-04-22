@@ -17,7 +17,7 @@ __temp__         = xbmcvfs.translatePath( os.path.join( __profile__, 'temp') )
 sys.path.append( os.path.join( __profile__, "lib") )
 
 self_host = "https://api.betaseries.com"
-self_apikey = "5a85a0adc953"
+self_apikey = __addon__.getSetting('betaseries_apikey')
 self_apiver = "3.0"
 self_team_pattern = re.compile(r".*-([^-]+)$")
 self_notify = __addon__.getSetting('notify') == 'true'
