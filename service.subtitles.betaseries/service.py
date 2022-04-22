@@ -22,6 +22,10 @@ self_apiver = "3.0"
 self_team_pattern = re.compile(r".*-([^-]+)$")
 self_notify = __addon__.getSetting('notify') == 'true'
 
+self_tmdb_host = "https://api.themoviedb.org"
+self_tmdb_apiver = "3"
+self_tmdb_apikey = __addon__.getSetting('tmdb_apikey')
+
 # equivalent of SD teams to HD teams
 TEAMS = (
     # SD[0]              HD[1]
@@ -78,7 +82,7 @@ def get_params(string=""):
   if string == "":
     paramstring=sys.argv[2]
   else:
-    paramstring=string 
+    paramstring=string
   if len(paramstring)>=2:
     params=paramstring
     cleanedparams=params.replace('?','')
@@ -91,7 +95,6 @@ def get_params(string=""):
       splitparams=pairsofparams[i].split('=')
       if (len(splitparams))==2:
         param[splitparams[0]]=splitparams[1]
-                                
   return param
 
 def get_url(url, referer=self_host):
@@ -101,6 +104,7 @@ def get_url(url, referer=self_host):
     'Pragma': 'no-cache',
     'Referer': referer}
     request = urllib.request.Request(url, headers=req_headers)
+    log('url = ' + url, xbmc.LOGERROR)
     opener = urllib.request.build_opener()
     try:
         response = opener.open(request)
@@ -118,7 +122,7 @@ def get_url(url, referer=self_host):
         log('generic exception: ' + traceback.format_exc(), xbmc.LOGERROR)
     # when error occured
     if self_notify:
-        xbmc.executebuiltin(('Notification(%s,%s,%s,%s)' % (__addonname__, __language__(30008), 750, __icon__)).encode('utf-8', 'ignore'))
+        xbmc.executebuiltin(('Notification(%s,%s,%s,%s)' % (__addonname__, __language__(30008), 750, __icon__)))
     return False
 
 def download_subtitle(url, ext, subversion, referer):
@@ -164,6 +168,22 @@ def download_subtitle(url, ext, subversion, referer):
             return local_tmp_file
     else:
         return False
+
+def get_imdb_id_from_tmdb(tmdb_id):
+
+    if self_tmdb_apikey == "":
+        xbmc.executebuiltin(('Notification(%s,%s,%s,%s)' % (__addonname__, __language__(30012), 750, __icon__)))
+        return None
+
+    imdb_url = "%s/%s/tv/%s?api_key=%s&append_to_response=external_ids" % (self_tmdb_host, self_tmdb_apiver, int(tmdb_id), self_tmdb_apikey)
+
+    try:
+        log("calling tmdb with : %s" % imdb_url)
+        return json.loads(get_url(imdb_url))["external_ids"]["imdb_id"]
+    except:
+        log("could not parse data or fetch url for tmdb_id '%s', cannot continue" % int(tmdb_id))
+        return None
+
 
 def search_subtitles(search):
     subtitles = []
@@ -220,11 +240,14 @@ def search_subtitles(search):
             # get tvdbid
             json_query = '{"jsonrpc": "2.0", "method": "VideoLibrary.GetTVShowDetails", "params": {"tvshowid": ' + str(tvshowid) + ', "properties": ["imdbnumber"]}, "id": 1}'
             tvdbid_result = json.loads(xbmc.executeJSONRPC(json_query))
+            log("result : %s" % repr(tvdbid_result))
             # if we have tvdbid, work with ids
             if 'result' in tvdbid_result:
-                # get betaseries show id from tvdbid
+                # get tmdbid (imdbnumber is a tmdb identifier)
                 tvdbid = tvdbid_result['result']['tvshowdetails']['imdbnumber']
-                showurl = "%s/shows/display?thetvdb_id=%s&key=%s&v=%s" % (self_host, tvdbid, self_apikey, self_apiver)
+                imdb_id = get_imdb_id_from_tmdb(tvdbid)
+                # get betaseries show id from tmdbid
+                showurl = "%s/shows/display?imdb_id=%s&key=%s&v=%s" % (self_host, imdb_id, self_apikey, self_apiver)
                 try:
                     showid = json.loads(get_url(showurl))["show"]["id"]
                 except:
@@ -287,7 +310,7 @@ def search_subtitles(search):
                 }[subtitle["language"]]
             except:
                 log("unsupported language")
-                continue 
+                continue
             # get note
             if 0 <= int(subtitle["quality"]) <= 5:
                 note = int(subtitle["quality"])
@@ -405,8 +428,9 @@ def search_subtitles(search):
             url = "plugin://%s/?action=download&link=%s&ext=%s&filename=%s" % (__addonid__, item["link"], item["ext"], urllib.parse.quote(item["filename"]))
             xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=url,listitem=listitem,isFolder=False)
     else:
+        #yuu<
         if self_notify:
-            xbmc.executebuiltin(('Notification(%s,%s,%s,%s)' % (__addonname__, __language__(30010), 750, __icon__)).encode('utf-8', 'ignore'))
+            xbmc.executebuiltin(('Notification(%s,%s,%s,%s)' % (__addonname__, __language__(30010), 750, __icon__)))
         log("nothing found")
     log("end of search_subtitles()")
 

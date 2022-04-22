@@ -49,3 +49,11 @@ msgstr "Aucune donnée ou contenu mal formaté!"
 msgctxt "#30010"
 msgid "No subtitle found!"
 msgstr "Aucun sous-titre trouvé!"
+
+msgctxt "#30011"
+msgid "TMDB API key"
+msgstr "Clef API du service TMDB"
+
+msgctxt "#30012"
+msgid "No TMDB API key provided, configure your plugin"
+msgstr "Aucune clef d'API du service TMDB fournie, veuillez configurer le plugin"

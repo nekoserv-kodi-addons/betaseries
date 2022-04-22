@@ -49,3 +49,11 @@ msgstr ""
 msgctxt "#30010"
 msgid "No subtitle found!"
 msgstr ""
+
+msgctxt "#30011"
+msgid "TMDB API key"
+msgstr ""
+
+msgctxt "#30012"
+msgid "No TMDB API key provided, configure your plugin"
+msgstr ""
