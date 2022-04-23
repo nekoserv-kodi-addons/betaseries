@@ -276,8 +276,7 @@ def search_subtitles(search):
         subfile = normalize_string(subtitle["file"])
         log("after subfile = %s" % (subfile))
         # get file extension
-        subfile = str(subfile)
-        ext = subfile.split('.')[-1]
+        ext = subfile.split(b'.')[-1].decode()
         # get season number from data
         season = int(subtitle["episode"]["season"])
         log("after season = %s" % (season))
