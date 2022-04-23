@@ -143,17 +143,18 @@ def download_subtitle(url, ext, subversion, referer):
             log("extracting zip file : %s" % (local_tmp_file))
             xbmc.executebuiltin("XBMC.Extract(" + local_tmp_file + "," + __temp__ +")")
             waittime  = 0
-            while (filecount == init_filecount) and (waittime < 20): # nothing yet extracted
-                time.sleep(1)  # wait 1 second to let the builtin function 'XBMC.extract' unpack
+            maxtime = 30 # timeout for extraction = 3 seconds
+            while (filecount == init_filecount) and (waittime < maxtime): # nothing yet extracted
+                time.sleep(0.1)  # wait 100ms to let the builtin function 'XBMC.extract' unpack
                 files = os.listdir(__temp__)
                 filecount = len(files)
                 waittime = waittime + 1
             # if max waittime reached
-            if waittime == 20:
+            if waittime == maxtime:
                 log("error unpacking files in : %s" % (__temp__))
             else:
                 log("unpacked files in : %s" % (__temp__))
-                time.sleep(1)
+                time.sleep(0.1)
                 files = os.listdir(__temp__)
                 log("looking for %s" % (subversion))
                 for filename in files:
