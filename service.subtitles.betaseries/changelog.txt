@@ -1,3 +1,7 @@
+1.0.3
+- Faster ZIP extractions
+- Fix subtitle filename on disk
+
 1.0.2
 - Removed debug logs
 
