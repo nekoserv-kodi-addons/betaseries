@@ -11,5 +11,15 @@
 		<summary lang="fr">Service de sous-titres BetaSeries</summary>
 		<description lang="en">Search and download subtitles from BetaSeries.com</description>
 		<description lang="fr">Rechercher et télécharger des sous-titres depuis BetaSeries.com</description>
+		<news>
+v1.1.0
+    [fix] missing icon
+    [opt] global code cleanup
+v1.0.3
+    [opt] faster ZIP extractions
+    [fix] subtitle filename on disk</news>
+		<assets>
+			<icon>resources/icon.png</icon>
+		</assets>
 	</extension>
 </addon>
