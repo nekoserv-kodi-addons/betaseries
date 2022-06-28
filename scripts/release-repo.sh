@@ -1,7 +1,7 @@
 #!/bin/bash
 
 token=$1
-ver=$(echo "$2" | sed "s/release: //")
+ver=$(echo "$2" | sed "s/release-repo: //")
 user="nekoserv-kodi-addons"
 repo="betaseries"
 tag_ver="${ver#?}"
