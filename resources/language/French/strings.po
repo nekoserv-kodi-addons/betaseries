@@ -1,7 +1,7 @@
 # XBMC Media Center language file
-# Addon Name: Addic7ed Subtitles Service
-# Addon id: service.subtitles.addic7ed
-# Addon Provider: skylex
+# Addon Name: Betaseries
+# Addon id: service.subtitles.betaseries
+# Addon Provider: nekoserv-kodi
 msgid ""
 msgstr ""
 "Project-Id-Version: XBMC Addons\n"
