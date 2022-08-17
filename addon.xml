@@ -4,7 +4,7 @@
 		<import addon="xbmc.python" version="3.0.0" />
 		<import addon="script.module.simplejson" version="3.17.0" />
 	</requires>
-	<extension point="xbmc.subtitle.module" library="main.py" />
+	<extension point="xbmc.subtitle.module" library="betaseries/main.py" />
 	<extension point="xbmc.addon.metadata">
 		<platform>all</platform>
 		<summary lang="en">BetaSeries subtitles service</summary>
@@ -12,6 +12,8 @@
 		<description lang="en">Search and download subtitles from BetaSeries.com</description>
 		<description lang="fr">Rechercher et télécharger des sous-titres depuis BetaSeries.com</description>
 		<news>
+v1.2.0
+    [opt] addon modularization
 v1.1.3
     [udp] repository url update
 v1.1.0

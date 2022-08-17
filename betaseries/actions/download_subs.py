@@ -1,9 +1,10 @@
 from sys import argv
 from urllib.parse import unquote
 
-from betaseries.toolbox.http import download_subtitle
 from xbmcgui import ListItem
 from xbmcplugin import addDirectoryItem
+
+from betaseries.toolbox.http import download_subtitle
 
 
 def download_subs(params):
@@ -13,6 +14,3 @@ def download_subs(params):
         # xbmc handles moving and using the subtitle
         list_item = ListItem(label=sub)
         addDirectoryItem(handle=int(argv[1]), url=sub, listitem=list_item, isFolder=False)
-
-# from betaseries.toolbox.http import download_subtitle
-# from betaseries.toolbox.http import download_subtitle

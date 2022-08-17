@@ -3,7 +3,7 @@ from os.path import join
 from xbmcaddon import Addon
 from xbmcvfs import translatePath
 
-from .setting_enum import SettingEnum
+from betaseries.settings.setting_enum import SettingEnum
 
 
 class SettingService:

@@ -2,7 +2,7 @@ from re import compile, findall
 
 from unicodedata import normalize
 
-from .logger import log
+from betaseries.toolbox.logger import log
 
 # equivalent of SD teams to HD teams
 TEAMS = (
@@ -15,10 +15,12 @@ TEAMS = (
 
 
 def normalize_string(to_normalize):
-    return normalize('NFKD', to_normalize).encode('ascii', 'ignore')
+    # return normalize('NFKD', to_normalize)
+    # return normalize('NFKD', to_normalize).encode('ascii', 'ignore')
+    return normalize('NFKD', to_normalize).encode('ascii', 'ignore').decode('ascii')
 
 
-def get_sub_team(filename):
+def get_sub_teams(filename):
     self_team_pattern = compile(r".*-([^-]+)$")
     sub_teams = [filename.replace(".", "-")]
     if len(sub_teams[0]) > 0:
@@ -32,7 +34,7 @@ def get_sub_team(filename):
         tmp = other_team(sub_teams[0], 1, 0)
         if len(tmp) > 0 and tmp != sub_teams[0]:
             sub_teams.append(tmp)
-    log("after sub_teams = %s" % sub_teams)
+    log("get_sub_teams = %s" % sub_teams)
     return sub_teams
 
 
