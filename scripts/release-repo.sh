@@ -2,27 +2,25 @@
 
 ## init
 token=$1
-name=$(echo "$2" | sed "s/release-repo: //")
-tag_ver="${name#?}"
-tag_name="repository.betaseries/repository.betaseries-$tag_ver"
+version=$(echo "$2" | sed "s/release-repo: //")
+tag_name="repository.betaseries"
 user="nekoserv-kodi-addons"
 repo="betaseries"
 create_release_url="https://api.github.com/repos/$user/$repo/releases"
 
-## generate json data
+## generate json data function
 generate_release_data() {
   cat <<EOF
 {
   "tag_name": "$tag_name",
-  "name": "$name"
+  "name": "repository $version"
 }
 EOF
 }
 
+## create release and get id
 post_data="$(generate_release_data)"
 echo "Create release with: $post_data"
-
-## create release and get id
 release_id=$(curl \
   -so- \
   -X POST \
@@ -33,7 +31,7 @@ release_id=$(curl \
 echo "release_id is: $release_id"
 
 ## create archive
-archive_name="repository.betaseries-$tag_ver.zip"
+archive_name="$tag_name-${version#?}.zip"
 cd repository/; zip -qr ../$archive_name repository.betaseries; cd -
 
 ## add asset

@@ -1,31 +1,47 @@
 #!/bin/bash
 
+## init
 token=$1
-ver=$(echo "$2" | sed "s/release: //")
+version=$(echo "$2" | sed "s/release: //")
+tag_name="service.subtitles.betaseries"
 user="nekoserv-kodi-addons"
 repo="betaseries"
-tag_ver="${ver#?}"
-tag="service.subtitles.betaseries/service.subtitles.betaseries-$tag_ver"
-api="https://api.github.com/repos/$user/$repo/releases"
+create_release_url="https://api.github.com/repos/$user/$repo/releases"
 
-generate_release_data()
-{
+## generate json data function
+generate_release_data() {
   cat <<EOF
 {
-  "tag_name": "$tag",
-  "name": "$ver"
+  "tag_name": "$tag_name",
+  "name": "betaseries $version"
 }
 EOF
 }
 
+## create release
 post_data="$(generate_release_data)"
+echo "Create release with: $post_data"
+release_id=$(curl \
+  -so- \
+  -X POST \
+  -H "Accept: application/vnd.github+json" \
+  -H "Authorization: token $token" \
+  -d "$post_data" \
+  "$create_release_url" | awk '/"id":/ {print; exit;}' | sed -E 's/^[^0-9]*([0-9]+).*/\1/')
+echo "release_id is: $release_id"
 
-echo "Create release"
-echo "$post_data"
+## create archive
+archive_name="$tag_name-${version#?}.zip"
+cd ../; mv "$repo" "$tag_name";
+zip -r "$archive_name" "$tag_name" -x "*/.git*" "*/repository/*" "*/scripts/*"
 
-curl \
-    -X POST \
-    -H "Accept: application/vnd.github.v3+json" \
-    -H "Authorization: token $token" \
-    --data "$post_data" \
-    "$api"
+## add asset
+add_asset_url="https://uploads.github.com/repos/$user/$repo/releases/$release_id/assets?name=$archive_name"
+asset_id=$(curl \
+  -so- \
+  -H "Accept: application/vnd.github+json" \
+  -H "Content-type: application/zip" \
+  -H "Authorization: token $token" \
+  --data-binary "@$archive_name" \
+  "$add_asset_url" | awk '/"id":/ {print; exit;}' | sed -E 's/^[^0-9]*([0-9]+).*/\1/')
+echo "asset_id is: $asset_id"
