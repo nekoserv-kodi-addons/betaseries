@@ -33,7 +33,8 @@ echo "release_id is: $release_id"
 ## create archive
 archive_name="$tag_name-${version#?}.zip"
 cd ../; mv "$repo" "$tag_name";
-zip -r "$archive_name" "$tag_name" -x "*/.git*" "*/repository/*" "*/scripts/*"
+zip -qr "$archive_name" "$tag_name" -x "*/.git*" "*/repository/*" "*/scripts/*"
+mv "$tag_name" "$repo"
 
 ## add asset
 add_asset_url="https://uploads.github.com/repos/$user/$repo/releases/$release_id/assets?name=$archive_name"
