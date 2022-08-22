@@ -54,13 +54,14 @@ def write_to_file(content, filename):
 
 def create_zip_archive(output_filename, source_dir):
     rel_root = os.path.abspath(os.path.join(source_dir, os.pardir))
+    print('zip file : ', output_filename)
     with ZipFile(output_filename, "w", ZIP_DEFLATED) as zp:
         for root, dirs, files in os.walk(source_dir):
             # add directory (needed for empty dirs)
             zp.write(root, os.path.relpath(root, rel_root))
             for file in files:
                 filename = os.path.join(root, file)
-                if os.path.isfile(filename): # regular files only
+                if os.path.isfile(filename):  # regular files only
                     arc_name = os.path.join(os.path.relpath(root, rel_root), file)
                     zp.write(filename, arc_name)
 
@@ -72,7 +73,7 @@ if __name__ == '__main__':
     update_addon_xml_version('repository/repository.betaseries/addon.xml', addon_id, new_version)
     update_repo_xml_version('repository/addons.xml', addon_id, new_version)
     make_md5_hash('repository/addons.xml', 'repository/addons.xml.md5')
-    create_zip_archive('repository/repository.betaseries-'+new_version+'.zip', 'repository/repository.betaseries/')
+    create_zip_archive('repository/repository.betaseries-' + new_version + '.zip', 'repository/repository.betaseries/')
     print('- - - - ')
     print('done')
     exit(0)
