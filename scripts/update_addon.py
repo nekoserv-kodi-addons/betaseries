@@ -4,7 +4,7 @@ from xml.etree import ElementTree
 
 
 def get_addon_id():
-    addon_id_param = "service.subtitles.betaseries"
+    addon_id_param = 'service.subtitles.betaseries'
     print('addon_id     : ', addon_id_param)
     return addon_id_param
 
@@ -45,7 +45,7 @@ def make_md5_hash(source_file, target_file):
 
 
 def write_to_file(content, filename):
-    f = open(filename, "w")
+    f = open(filename, 'w')
     f.write(content)
     f.close()
 

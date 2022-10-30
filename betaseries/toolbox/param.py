@@ -1,12 +1,14 @@
 from sys import argv
 
+from betaseries.toolbox.logger import log
+
 
 def get_params():
     init_param = []
-    print('----------------')
-    print(repr(argv))
-    print('----------------')
-    if len(argv[2]) >= 2:
+    log('----------------')
+    log(repr(argv))
+    log('----------------')
+    if len(argv) > 2 and len(argv[2]) >= 2:
         cleaned_params = argv[2].replace('?', '')
         pairs_of_params = cleaned_params.split('&')
         init_param = {}

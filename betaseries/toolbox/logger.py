@@ -1,10 +1,12 @@
+from xbmc import log as xbmc_log, LOGDEBUG, executebuiltin
+
 from betaseries.settings.setting_enum import SettingEnum
 from betaseries.settings.setting_service import SettingService
-from xbmc import log as xbmc_log, LOGDEBUG, executebuiltin
 
 
 def log(txt, level=LOGDEBUG):
     message = '%s: %s' % (SettingService.get(SettingEnum.ID), txt)
+    print(message)
     xbmc_log(msg=message, level=level)
 
 

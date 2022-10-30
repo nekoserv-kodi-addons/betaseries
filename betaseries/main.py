@@ -5,7 +5,7 @@ from xbmcplugin import endOfDirectory
 from betaseries.actions.download_subs import download_subs
 from betaseries.actions.search_subs import search_subs
 from betaseries.toolbox.file import clean_temp_directory
-from betaseries.toolbox.params import get_params
+from betaseries.toolbox.param import get_params
 
 if __name__ == '__main__':
     # clean temp directory

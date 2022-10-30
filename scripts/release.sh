@@ -62,7 +62,7 @@ echo "$release_id"
 ## create archive
 archive_name="$tag_name-${version#?}.zip"
 cd ../; mv "$repo" "$tag_name";
-zip -qr "$archive_name" "$tag_name" -x "*/.git*" "*/repository/*" "*/scripts/*"
+zip -qr "$archive_name" "$tag_name" -x "*/.git*" "*/repository/*" "*/scripts/*" "*/betaseries/tests/*"
 mv "$tag_name" "$repo"
 
 

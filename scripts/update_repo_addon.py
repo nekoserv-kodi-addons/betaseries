@@ -6,7 +6,7 @@ from zipfile import ZIP_DEFLATED, ZipFile
 
 
 def get_addon_id():
-    addon_id_param = "repository.betaseries"
+    addon_id_param = 'repository.betaseries'
     print('addon_id     : ', addon_id_param)
     return addon_id_param
 
@@ -47,7 +47,7 @@ def make_md5_hash(source_file, target_file):
 
 
 def write_to_file(content, filename):
-    f = open(filename, "w")
+    f = open(filename, 'w')
     f.write(content)
     f.close()
 
@@ -55,7 +55,7 @@ def write_to_file(content, filename):
 def create_zip_archive(output_filename, source_dir):
     rel_root = os.path.abspath(os.path.join(source_dir, os.pardir))
     print('zip file : ', output_filename)
-    with ZipFile(output_filename, "w", ZIP_DEFLATED) as zp:
+    with ZipFile(output_filename, 'w', ZIP_DEFLATED) as zp:
         for root, dirs, files in os.walk(source_dir):
             # add directory (needed for empty dirs)
             zp.write(root, os.path.relpath(root, rel_root))
