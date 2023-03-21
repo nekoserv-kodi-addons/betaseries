@@ -8,39 +8,32 @@ user="nekoserv-kodi-addons"
 repo="betaseries"
 create_release_url="https://api.github.com/repos/$user/$repo/releases"
 
-## generate json data function
-generate_release_data() {
-  cat <<EOF
-{
-  "tag_name": "$tag_name",
-  "name": "repository $version"
-}
-EOF
-}
-
 ## remove previous tag
+echo " -> Deleting previous tag"
 curl \
-  -so- \
+  -s \
   -X DELETE \
   -H "Accept: application/vnd.github+json" \
-  -H "Authorization: token $token" \
+  -H "Authorization: Bearer $token" \
+  -H "X-GitHub-Api-Version: 2022-11-28" \
   "https://api.github.com/repos/$user/$repo/git/refs/tags/$tag_name"
 
 ## create release and get id
-post_data="$(generate_release_data)"
-echo "Create release with: $post_data"
+echo -n "\n -> Creating new release\n"
 release_id=$(curl \
   -so- \
   -X POST \
   -H "Accept: application/vnd.github+json" \
-  -H "Authorization: token $token" \
-  -d "$post_data" \
+  -H "Authorization: Bearer $token" \
+  -H "X-GitHub-Api-Version: 2022-11-28" \
+  -d '{"tag_name":"'$tag_name'","name":"repository '$version'"}' \
   "$create_release_url" | awk '/"id":/ {print; exit;}' | sed -E 's/^[^0-9]*([0-9]+).*/\1/')
-echo "release_id is: $release_id"
+echo -n "\n -> release_id is: $release_id\n"
 
 ## create archive
 archive_name="$tag_name-${version#?}.zip"
-cd repository/; zip -qr ../$archive_name repository.betaseries; cd -
+cd repository/; zip -qr ../$archive_name repository.betaseries
+cd - > /dev/null
 
 ## add asset
 add_asset_url="https://uploads.github.com/repos/$user/$repo/releases/$release_id/assets?name=$archive_name"
@@ -48,7 +41,8 @@ asset_id=$(curl \
   -so- \
   -H "Accept: application/vnd.github+json" \
   -H "Content-type: application/zip" \
-  -H "Authorization: token $token" \
+  -H "Authorization: Bearer $token" \
+  -H "X-GitHub-Api-Version: 2022-11-28" \
   --data-binary "@$archive_name" \
   "$add_asset_url" | awk '/"id":/ {print; exit;}' | sed -E 's/^[^0-9]*([0-9]+).*/\1/')
-echo "asset_id is: $asset_id"
+echo "\n -> asset_id is: $asset_id"
