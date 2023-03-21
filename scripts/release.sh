@@ -18,6 +18,14 @@ generate_release_data() {
 EOF
 }
 
+## remove previous tag
+curl \
+  -so- \
+  -X DELETE \
+  -H "Accept: application/vnd.github+json" \
+  -H "Authorization: token $token" \
+  "https://api.github.com/repos/$user/$repo/git/refs/tags/$tag_name"
+
 ## create release
 post_data="$(generate_release_data)"
 echo "Create release with: $post_data"
@@ -33,7 +41,7 @@ echo "release_id is: $release_id"
 ## create archive
 archive_name="$tag_name-${version#?}.zip"
 cd ../; mv "$repo" "$tag_name";
-zip -qr "$archive_name" "$tag_name" -x "*/.git*" "*/repository/*" "*/scripts/*"
+#zip -qr "$archive_name" "$tag_name" -x "*/.git*" "*/repository/*" "*/scripts/*" 
 mv "$tag_name" "$repo"
 
 ## add asset

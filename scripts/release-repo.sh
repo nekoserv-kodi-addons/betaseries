@@ -18,6 +18,14 @@ generate_release_data() {
 EOF
 }
 
+## remove previous tag
+curl \
+  -so- \
+  -X DELETE \
+  -H "Accept: application/vnd.github+json" \
+  -H "Authorization: token $token" \
+  "https://api.github.com/repos/$user/$repo/git/refs/tags/$tag_name"
+
 ## create release and get id
 post_data="$(generate_release_data)"
 echo "Create release with: $post_data"
