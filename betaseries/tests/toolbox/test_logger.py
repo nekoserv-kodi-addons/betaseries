@@ -10,10 +10,10 @@ class TestLogger(TestCase):
     @patch('betaseries.toolbox.logger.SettingService.get', MagicMock(return_value='123'))
     def test_log(self):
         with patch('sys.stdout', new=StringIO()) as mock_stdout:
-            with patch('betaseries.toolbox.logger.xbmc_log', side_effect=MagicMock()) as mock_xmbc_log:
+            with patch('betaseries.toolbox.logger.xbmc_log', side_effect=MagicMock()) as mock_log:
                 log('this is a sentence')
                 self.assertEqual('123: this is a sentence\n', mock_stdout.getvalue())
-                self.assertEqual(1, mock_xmbc_log.call_count)
+                self.assertEqual(1, mock_log.call_count)
 
     @patch('betaseries.toolbox.logger.SettingService.get', MagicMock(return_value=None))
     def test_send_user_notification_no_id(self):

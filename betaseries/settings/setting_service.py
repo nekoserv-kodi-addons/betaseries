@@ -11,7 +11,7 @@ class SettingService:
 
     @staticmethod
     def get(item):
-        '''init configuration if needed, then item from __settings'''
+        """init configuration if needed, then item from __settings"""
         # reload if needed
         if SettingService.__settings is None:
             SettingService.__load()
@@ -20,7 +20,7 @@ class SettingService:
 
     @staticmethod
     def __load():
-        '''load all settings'''
+        """load all settings"""
         addon = Addon(id='service.subtitles.betaseries')
 
         profile = translatePath(addon.getAddonInfo('profile'))
