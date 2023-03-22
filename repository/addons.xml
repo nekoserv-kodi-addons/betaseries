@@ -7,6 +7,7 @@
 			<info compressed="true">https://raw.githubusercontent.com/nekoserv-kodi-addons/betaseries/master/repository/addons.xml</info>
 			<checksum>https://raw.githubusercontent.com/nekoserv-kodi-addons/betaseries/master/repository/addons.xml.md5</checksum>
 			<datadir zip="true">https://github.com/nekoserv-kodi-addons/betaseries/releases/download</datadir>
+			<hashes>sha256</hashes>
 		</dir>
 	</extension>
 	<extension point="xbmc.addon.metadata">
@@ -15,6 +16,9 @@
 		<description lang="fr">Ce dépôt contient l'extension BetaSeries.com pour XBMC et permet de la maintenir à jour</description>
         	<disclaimer>If it breaks, you get to keep the pieces</disclaimer>
 		<platform>all</platform>
+		<assets>
+			<icon>icon.png</icon>
+		</assets>
 	</extension>
 </addon>
 
@@ -25,11 +29,14 @@
 	</requires>
 	<extension point="xbmc.subtitle.module" library="service.py" />
 	<extension point="xbmc.addon.metadata">
-		<platform>all</platform>
 		<summary lang="en">BetaSeries subtitles service</summary>
 		<summary lang="fr">Service de sous-titres BetaSeries</summary>
 		<description lang="en">Search and download subtitles from BetaSeries.com</description>
 		<description lang="fr">Rechercher et télécharger des sous-titres depuis BetaSeries.com</description>
+		<platform>all</platform>
+		<assets>
+			<icon>icon.png</icon>
+		</assets>
 	</extension>
 </addon>
 
