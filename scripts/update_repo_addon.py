@@ -1,5 +1,5 @@
 import os
-from hashlib import md5
+from hashlib import sha256
 from sys import argv
 from xml.etree import ElementTree
 from zipfile import ZIP_DEFLATED, ZipFile
@@ -41,7 +41,7 @@ def update_addon_xml_version(xml_filename, addon_id_p, new_version_p):
 
 
 def make_md5_hash(source_file, target_file):
-    md5_hash = md5(open(source_file, 'rb').read()).hexdigest()
+    md5_hash = sha256(open(source_file, 'rb').read()).hexdigest()
     print('updating : ', target_file)
     write_to_file(md5_hash, target_file)
 
