@@ -11,14 +11,14 @@ from betaseries.settings.setting_service import SettingService
 def sort_subtitles(subtitles_list):
     # get settings for sorting
     ui_first = SettingService.get(SettingEnum.UI_FIRST)
+    print('ui_first:'+repr(ui_first))
     cc_first = SettingService.get(SettingEnum.CC_FIRST)
+    print('cc_first:'+repr(cc_first))
     # sort by filename
     sort_by_item(subtitles_list, 'filename')
     sort_by_item(subtitles_list, 'note', reverse=True)
     sort_by_item(subtitles_list, 'lang')
-    if cc_first:
-        sort_by_item(subtitles_list, 'cc')
-    else:
+    if not cc_first:
         sort_by_item(subtitles_list, 'cc')
     if ui_first:
         sort_by_item(subtitles_list, 'uilang')

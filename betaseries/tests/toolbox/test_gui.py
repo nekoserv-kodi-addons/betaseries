@@ -26,37 +26,36 @@ class TestGui(TestCase):
          {'uilang': 'de', 'ext': 'srt', 'filename': 'show-s01e01-aaa.srt', 'link': 'http://dummy-web.site/api/getsrt',
           'lang': 'de', 'lang2': 'en', 'cc': True, 'sync': False, 'note': 6, 'team': 'DEVOTION'}]
 
-    @patch('betaseries.toolbox.gui.SettingService.get')
-    def test_sort_subtitles(self, mock_settings_service):
+    # @patch('betaseries.toolbox.gui.SettingService.get')
+    # def test_sort_subtitles(self, mock_settings_service_get):
+    def test_sort_subtitles(self):
 
-        param_list = [
+        test_list = [
             {'uifirst': False, 'ccfirst': False, 'call_count': 6,
              'expected_args': ['filename', 'note', 'lang', 'cc', 'sync', 'team']},
             {'uifirst': True, 'ccfirst': False, 'call_count': 7,
              'expected_args': ['filename', 'note', 'lang', 'cc', 'uilang', 'sync', 'team']},
-            {'uifirst': False, 'ccfirst': True, 'call_count': 6,
-             'expected_args': ['filename', 'note', 'lang', 'cc', 'sync', 'team']},
-            {'uifirst': True, 'ccfirst': True, 'call_count': 7,
-             'expected_args': ['filename', 'note', 'lang', 'cc', 'uilang', 'sync', 'team']}
+            {'uifirst': False, 'ccfirst': True, 'call_count': 5,
+             'expected_args': ['filename', 'note', 'lang', 'sync', 'team']},
+            {'uifirst': True, 'ccfirst': True, 'call_count': 6,
+             'expected_args': ['filename', 'note', 'lang', 'uilang', 'sync', 'team']}
         ]
 
-        for test in param_list:
-            with self.subTest(test):
-                # mock
+        for current_test in test_list:
+            with self.subTest(current_test):
+                # dynamic mock based on SettingService.get()
                 def dynamic_mock(item):
                     if item == SettingEnum.UI_FIRST:
-                        return test['uifirst']
+                        return current_test['uifirst']
                     if item == SettingEnum.CC_FIRST:
-                        return test['ccfirst']
-
-                    mock_settings_service.side_effect = dynamic_mock
-
-                # call with patch
-                with patch('betaseries.toolbox.gui.sort_by_item') as sb:
-                    sort_subtitles(self.s)
-                    self.assertEqual(test['call_count'], sb.call_count)
-                    current_second_args = get_argument(sb, 2)
-                    self.assertEqual(test['expected_args'], current_second_args)
+                        return current_test['ccfirst']
+                # dynamic mock setup
+                with patch('betaseries.toolbox.gui.SettingService.get', side_effect=lambda x: dynamic_mock(x)):
+                    with patch('betaseries.toolbox.gui.sort_by_item') as sb:
+                        sort_subtitles(self.s)
+                        self.assertEqual(current_test['call_count'], sb.call_count)
+                        current_second_args = get_argument(sb, 2)
+                        self.assertEqual(current_test['expected_args'], current_second_args)
 
     @patch('betaseries.toolbox.gui.argv', ['./gui.py', '1'])
     def test_add_subtitles_to_gui(self):
